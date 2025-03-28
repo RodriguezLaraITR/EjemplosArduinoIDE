@@ -1,0 +1,28 @@
+// Definir los pines
+const int PIN_LED = 2;     // Pin donde está conectado el LED
+const int PIN_BOTON = 12;  // Pin donde está conectado el botón
+// Variable para almacenar el estado del LED
+bool ESTADO_LED = true;  // Inicialmente el LED está apagado
+// Variable para controlar el estado anterior del botón
+bool ULTIMO_ESTADO_BOTON = LOW;
+void setup() {
+  // Configurar el pin del LED como salida
+  pinMode(PIN_LED, OUTPUT);
+  // Configurar el pin del botón como entrada
+  pinMode(PIN_BOTON, INPUT_PULLUP);
+}
+void loop() {
+  // Leer el estado actual del botón
+  bool ESTADO_BOTON = digitalRead(PIN_BOTON);
+  // Si el botón ha sido presionado (cambio de estado)
+  if (ESTADO_BOTON == HIGH && ULTIMO_ESTADO_BOTON == LOW) {
+    // Invertir el estado del LED
+    ESTADO_LED = !ESTADO_LED;
+    // Aplicar el nuevo estado al LED
+    digitalWrite(PIN_LED, ESTADO_LED ? HIGH : LOW);
+    // Esperar un poco para evitar el rebote del botón (debounce)
+    delay(200);
+  }
+  // Actualizar el estado del botón
+  ULTIMO_ESTADO_BOTON = ESTADO_BOTON;
+}
